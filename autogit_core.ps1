@@ -28,9 +28,12 @@ Register-ObjectEvent $watcher Changed -Action {
 
     # Git 操作
     cd $repo
+    Write-Host " git add ."
     git add .
     $timestamp = (Get-Date).ToString("yyyy-MM-dd_HH-mm-ss")
+    Write-Host " git commit -m 'Auto Commit - $timestamp' 2>$null"
     git commit -m "Auto Commit - $timestamp" 2>$null
+    Write-Host " git push origin main 2>$null"
     git push origin main 2>$null
 
     Write-Host " 推送完成！ [$timestamp]"
