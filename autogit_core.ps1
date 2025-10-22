@@ -39,6 +39,7 @@ Register-ObjectEvent $watcher Changed -Action {
 
     # Git ¾Þ§@
     cd $repo
+    git status
     Write-Host " git add ."
     git add .
     $timestamp = (Get-Date).ToString("yyyy-MM-dd_HH-mm-ss")
