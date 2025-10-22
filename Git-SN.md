@@ -61,3 +61,12 @@
     
     > git clone < url >
         : 將雲端倉庫複製到本地
+    
+    > git pull
+        : 使雲端與本地倉庫同步
+    
+    > git checkout -b < 分支名稱 >
+        : 建立新分支
+    
+    > git branch
+        : 查詢分支
