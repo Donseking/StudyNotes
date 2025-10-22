@@ -14,7 +14,7 @@ echo -------------------------------------
 git status
 git add .
 git commit -m "Auto Commit"
-git push origin main
+git push
 
 echo ? ????!
 echo -------------------------------------
