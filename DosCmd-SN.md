@@ -20,6 +20,9 @@
     
     > del < file > < folder >
         : 刪除資料夾或檔案
+        
+    > tree < path > /f
+        : 顯示指定資料夾的樹狀結構
 
 
 #### 2. Powershell 指令
