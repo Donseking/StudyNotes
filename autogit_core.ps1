@@ -20,7 +20,7 @@ Write-Host "------------------------------------------"
 $allowedExt = @(".md", ".txt", ".py")  
 
 # --- 排除的檔案或資料夾 ---
-$excludeFiles = @("autogit.ps1","workflow.bat")  
+$excludeFiles = @("autogit.bat", "autogit_core.ps1")  
 $excludeFolders = @(".git")                      
 
 # -------------------------------
@@ -47,8 +47,8 @@ function GitWorkflow($file) {
     $timestamp = (Get-Date).ToString("yyyy-MM-dd_HH-mm-ss")
     Write-Host " [Git] git commit -m 'Auto Commit - $timestamp'"
     git commit -m "Auto Commit - $timestamp" 2>$null
-    Write-Host " [Git] git push origin main 2>$null"
-    git push origin main 2>$null
+    Write-Host " [Git] git push origin main $null"
+    git push $null
     Write-Host " [Git] 推送完成！ [$timestamp]"
 }
 
