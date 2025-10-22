@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 :: Git ??????
 :: ==============================
 
-cd /d D:\DSKCODE\STUDYNOTES
+cd D:\DSKCODE\STUDYNOTES
 
 echo -------------------------------------
 echo ?? ??????...
