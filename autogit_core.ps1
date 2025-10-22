@@ -3,7 +3,7 @@
 # -------------------------------
 
 $repo = "D:\DSKCODE\STUDYNOTES"
-$cooldownSeconds = 10
+$cooldownSeconds = 5
 $lastRun = Get-Date "2000-01-01"
 
 $Host.UI.RawUI.WindowTitle = "AutoGitWatcher"
