@@ -5,24 +5,24 @@ set "repo=D:\DSKCODE\STUDYNOTES"
 set "ps1=%repo%\autogit_core.ps1"
 
 :: =========================
-:: ?? Git ?????
+:: 自動 Git 系統控制器
 :: =========================
 if "%1"=="start" (
-    echo ?? ???? Git ??...
+    echo  啟動自動 Git 系統...
     powershell -ExecutionPolicy Bypass -File "%ps1%"
     exit /b
 )
 
 if "%1"=="stop" (
-    echo ?? ?????? Git ??...
+    echo  嘗試終止自動 Git 系統...
     taskkill /FI "WINDOWTITLE eq AutoGitWatcher" /F >nul 2>nul
-    echo ? ??????
+    echo  已停止監控。
     exit /b
 )
 
 echo -----------------------------------------
-echo ?? ????:
-echo   autogit start    ????????
-echo   autogit stop     ????????
+echo  使用方式：
+echo   autogit start    啟動自動推送系統
+echo   autogit stop     停止自動推送系統
 echo -----------------------------------------
 exit /b
