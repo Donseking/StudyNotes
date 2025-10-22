@@ -1,9 +1,12 @@
 # -------------------------------
-# AutoGit 模組化工作流監控系統
+# AutoGit 模組化工作流監控系統 (含桌面通知)
 # -------------------------------
 
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
 $repo = "D:\DSKCODE\STUDYNOTES"
-$cooldownSeconds = 5
+$cooldownSeconds = 10
 $lastRun = Get-Date "2000-01-01"
 
 $Host.UI.RawUI.WindowTitle = "AutoGitWatcher"
@@ -14,16 +17,29 @@ Write-Host "冷卻間隔：$cooldownSeconds 秒"
 Write-Host "------------------------------------------"
 
 # --- 設定監控檔案副檔名 ---
-$allowedExt = @(".md", ".txt", ".py")  # 想監控的副檔名，可自行擴充
+$allowedExt = @(".md", ".txt", ".py")  
 
 # --- 排除的檔案或資料夾 ---
-$excludeFiles = @("autogit.ps1","workflow.bat")  # 自動工具
-$excludeFolders = @(".git")                      # Git 資料夾
+$excludeFiles = @("autogit.ps1","workflow.bat")  
+$excludeFolders = @(".git")                      
 
 # -------------------------------
-# 事件觸發的工作流函數
+# 桌面通知函數
 # -------------------------------
+function ShowNotification($title, $message) {
+    $notification = New-Object System.Windows.Forms.NotifyIcon
+    $notification.Icon = [System.Drawing.SystemIcons]::Information
+    $notification.Visible = $true
+    $notification.BalloonTipTitle = $title
+    $notification.BalloonTipText = $message
+    $notification.ShowBalloonTip(3000)  # 顯示 3 秒
+    Start-Sleep 3
+    $notification.Dispose()
+}
 
+# -------------------------------
+# 工作流函數
+# -------------------------------
 function GitWorkflow($file) {
     cd $repo
     Write-Host " [Git] git add ."
@@ -58,15 +74,17 @@ function PdfWorkflow($file) {
     }
 }
 
-# 主工作流，新增工作流只需加函數即可
 function RunWorkflows($file) {
     GitWorkflow $file
+    # BackupWorkflow $file
+    # FormatWorkflow $file
+    # PdfWorkflow $file
+    ShowNotification "AutoGit 工作流完成" "檔案已處理: $(Split-Path $file -Leaf)"
 }
 
 # -------------------------------
 # 設定檔案監控
 # -------------------------------
-
 $watcher = New-Object System.IO.FileSystemWatcher
 $watcher.Path = $repo
 $watcher.Filter = "*.*"
