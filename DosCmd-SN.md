@@ -17,6 +17,9 @@
     
     > md foldername
         : 建立新資料夾
+    
+    > del < file > < folder >
+        : 刪除資料夾或檔案
 
 
 #### 2. Powershell 指令
