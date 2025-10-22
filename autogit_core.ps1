@@ -11,14 +11,25 @@ Write-Host "------------------------------------------"
 
 $watcher = New-Object System.IO.FileSystemWatcher
 $watcher.Path = $repo
-$watcher.Filter = "*.md"
+$watcher.Filter = "*.*"
 $watcher.IncludeSubdirectories = $true
 $watcher.EnableRaisingEvents = $true
 
 Register-ObjectEvent $watcher Changed -Action {
     $changedFile = $Event.SourceEventArgs.FullPath
-    if ($changedFile -match "\\.git\\") { return }
 
+    # 排除 .git 與自動工具檔案
+    if ($changedFile -match "\\.git\\") { return }
+    $excludeFiles = @("autogit.ps1","workflow.bat")
+    foreach ($f in $excludeFiles) {
+        if ($changedFile -like "*$f") { return }
+    }
+
+    # 檢查副檔名
+    $allowedExt = @(".md", ".txt", ".py")
+    if ($allowedExt -notcontains [System.IO.Path]::GetExtension($changedFile)) { return }
+
+    # 冷卻
     $now = Get-Date
     if (($now - $lastRun).TotalSeconds -lt $cooldownSeconds) { return }
     $global:lastRun = $now
@@ -31,7 +42,7 @@ Register-ObjectEvent $watcher Changed -Action {
     Write-Host " git add ."
     git add .
     $timestamp = (Get-Date).ToString("yyyy-MM-dd_HH-mm-ss")
-    Write-Host " git commit -m 'Auto Commit - $timestamp' 2>$null"
+    Write-Host " git commit -m 'Auto Commit - $timestamp'"
     git commit -m "Auto Commit - $timestamp" 2>$null
     Write-Host " git push origin main 2>$null"
     git push origin main 2>$null
